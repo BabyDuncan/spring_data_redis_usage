@@ -5,6 +5,9 @@
        xmlns:redis="http://www.springframework.org/schema/redis"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/redis http://www.springframework.org/schema/redis/spring-redis.xsd">
 
+    <context:annotation-config></context:annotation-config>
+    <context:component-scan base-package="com.babyduncan"></context:component-scan>
+
     <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <property name="maxIdle" value="100"/>
         <property name="maxActive" value="50"/>
@@ -17,13 +20,12 @@
           class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
           p:hostName="localhost" p:port="6379" p:usePool="true" p:poolConfig-ref="poolConfig" p:timeout="1000"></bean>
 
-    <!-- the default ConnectionFactory -->
-    <redis:listener-container>
-        <!-- the method attribute can be skipped as the default method name is "handleMessage"
-     -->
-        <redis:listener ref="listener" method="handleMessage" topic="chatroom"/>
-    </redis:listener-container>
 
-    <bean id="listener" class="com.babyduncan.DefaultMessageDelegate"/>
+    <!-- redis template definition -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
+          p:connectionFactory-ref="redisConnectionFactory"/>
+
+    <bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate"
+          p:connectionFactory-ref="redisConnectionFactory"/>
 
 </beans>

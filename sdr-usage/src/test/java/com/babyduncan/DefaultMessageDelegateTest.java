@@ -8,22 +8,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * User: guohaozhao (guohaozhao116008@sohu-inc.com)
- * Date: 12/18/13 15:25
+ * Date: 12/18/13 16:26
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:sdrc-applicationContext.xml")
-public class SimpleExampleTest {
+public class DefaultMessageDelegateTest {
 
     @Autowired
-    SimpleExample simpleExample;
+    private PubSubExample pub;
 
     @Test
-    public void testAddLink() throws Exception {
-        simpleExample.addLink("foobar", "http://www.sohu.com");
-    }
-
-    @Test
-    public void testString() {
-        simpleExample.stringTest();
+    public void testHandleMessage() throws Exception {
+        pub.pub("aaa");
     }
 }
